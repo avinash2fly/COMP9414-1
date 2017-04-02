@@ -13,8 +13,8 @@
 % Sumlist then produces the respective sums
 
 weirdsum(Numbers,Weird) :-
-	include(greater_than_five(),Numbers,Gtf),
-	include(less_then_two(),Numbers,Ltt),
+	include(greater_than_five,Numbers,Gtf),
+	include(less_then_two,Numbers,Ltt),
 	maplist(sqr,Gtf,SqrGtf),
 	maplist(abs,Ltt,AbsLtt),
 	sumlist(SqrGtf,SmSqr),
