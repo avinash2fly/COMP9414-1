@@ -70,6 +70,19 @@ same_name(Person1,Person2) :-
 	parent(Parent,Person2),
 	Person1 \= Person2. 
 
+% Daughters
+
+same_name(Person1, Person2) :-
+	male(Person1),
+	parent(Person1,Person2).
+
+% Grandaughters
+
+same_name(Person1,Person2) :-
+	male_descendant(Person1,Descendant),
+	parent(Descendant,Person2).
+	
+
  % Uncles and Nephews
 
  %same_name(Person1, Person2) :-
