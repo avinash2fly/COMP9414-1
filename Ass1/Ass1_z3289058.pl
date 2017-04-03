@@ -30,7 +30,7 @@ less_then_two(Number) :-
 sqr(X,Y) :-
 	Y is X * X.
 
-% Question 2
+% Question 2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 parent(jim, brian).
 parent(brian, jenny).
@@ -38,6 +38,8 @@ parent(john,jimmy).
 parent(jimmy,josh).
 parent(pat, brian).
 parent(jim,john).
+parent(john, jan).
+female(jan).
 female(pat).
 female(jenny).
 male(jim).
@@ -82,37 +84,24 @@ same_name(Person1,Person2) :-
 	male_descendant(Person1,Descendant),
 	parent(Descendant,Person2).
 	
+%Uncles and Nephews
 
- % Uncles and Nephews
+same_name(Person1, Person2) :-
+ 	parent(Parent,Person1),
+ 	male(Parent),
+ 	parent(Parent, Sibling),
+ 	Sibling \= Person1,
+ 	male(Sibling),
+ 	parent(Sibling,Person2).
 
- %same_name(Person1, Person2) :-
- %	parent(Parent,Person1),
- %	male(Parent),
- %	parent(Parent, Sibling),
- %	male(Sibling),
- %	parent(Sibling,Person2).
+% Grand-Uncles and Nephews
 
-
-%% GrandChild: Person2 is Grandchild of Person1
-%
-%same_name(Person1,Person2) :-
-%	male(Person1),
-%	parent(Person1,Child),
-%	male(Child),
-%	parent(Child, Person2).
-
-
-% Child : Person1 is child of Person2
-
-%same_name(Person1,Person2) :-
-%	male(Person2),
-%	parent(Person2,Person1).
-
-% GrandChild: Person1 is Grandchild of Person2
-%
-%same_name(Person1,Person2) :-
-%	male(Person2),
-%	parent(Person2,Child),
-%	male(Child),
-%	parent(Child,Person1).
+ same_name(Person1, Person2) :-
+ 	parent(Parent,Person1),
+ 	male(Parent),
+ 	parent(Parent, Sibling),
+ 	Sibling \= Person1,
+ 	male_descendant(Sibling,Descendant),
+ 	parent(Descendant,Person2).
+	
 
