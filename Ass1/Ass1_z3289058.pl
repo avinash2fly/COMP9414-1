@@ -105,3 +105,18 @@ same_name(Person1, Person2) :-
  	parent(Descendant,Person2).
 	
 
+% Question 3 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+log_table([],[]).
+log_table([H|T], LogPairs) :-
+	LogH is log(H),
+	log_table(T,LogHList),
+	LogPairs = [[H, LogH]|LogHList].
+
+
+
+
+
+
+
+
