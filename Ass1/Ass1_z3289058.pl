@@ -46,20 +46,38 @@ male(jimmy).
 male(josh).
 male(john).
 
-% Child : Person2 is child of Person1
+% Descendant : Person2 is descendant of Person1
 
-same_name(Person1,Person2) :-
+male_descendant(Person1,Person2) :-
 	male(Person1),
-	parent(Person1,Person2).
+	parent(Person1,Person2),
+	male(Person2).
 
-
-same_name(Person1,Person2) :-
+male_descendant(Person1,Person2) :-
 	male(Person1),
-	parent(Person1, Child),
-	same_name(Child,Person2).
+	parent(Person1,Child),
+	male_descendant(Child,Person2).
+
 
 same_name(Person1,Person2) :-
-	Person1 = Person2.
+	male_descendant(Person1,Person2).
+
+% Siblings
+
+same_name(Person1,Person2) :-
+	parent(Parent,Person1),
+	male(Parent),
+	parent(Parent,Person2),
+	Person1 \= Person2. 
+
+ % Uncles and Nephews
+
+ %same_name(Person1, Person2) :-
+ %	parent(Parent,Person1),
+ %	male(Parent),
+ %	parent(Parent, Sibling),
+ %	male(Sibling),
+ %	parent(Sibling,Person2).
 
 
 %% GrandChild: Person2 is Grandchild of Person1
@@ -84,12 +102,4 @@ same_name(Person1,Person2) :-
 %	parent(Person2,Child),
 %	male(Child),
 %	parent(Child,Person1).
-
-% Siblings
-
-same_name(Person1,Person2) :-
-	parent(Parent,Person1),
-	male(Parent),
-	parent(Parent,Person2),
-	Person1 \= Person2. 
 
