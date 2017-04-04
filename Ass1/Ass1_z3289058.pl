@@ -114,6 +114,40 @@ log_table([H|T], LogPairs) :-
 	LogPairs = [[H, LogH]|LogHList].
 
 
+% Question 4 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+paruns([],[]):-!.
+paruns([],_):-!.
+paruns(List, RunList):-
+	even_list(List,EL,OL),
+	odd_list(OL,OL1,EL1),
+	paruns(EL1,RemList),
+	RunList = [EL,OL1|RemList].
+
+
+
+odd_list([],[],[]).
+
+odd_list([H|T],[],[H|T]) :-
+	even(H).
+
+odd_list([H|T],[H|R],Remaining) :-
+	odd(H),
+	odd_list(T,R,Remaining).
+
+even_list([],[],[]).
+
+even_list([H|T],[],[H|T]) :-
+	odd(H).
+
+even_list([H|T],[H|R],Remaining) :-
+	even(H),
+	even_list(T,R,Remaining).
+
+% Odd and Even Predicates
+odd(Num) :- 
+	1 is Num mod 2.
+even(Num) :- 
+	0 is Num mod 2.
 
 
 
