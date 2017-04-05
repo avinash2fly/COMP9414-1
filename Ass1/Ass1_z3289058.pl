@@ -115,33 +115,19 @@ log_table([H|T], LogPairs) :-
 
 
 % Question 4 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-paruns([],[]):-!.
-paruns([],_):-!.
-paruns(List, RunList):-
-	even_list(List,EL,OL),
-	odd_list(OL,OL1,EL1),
-	paruns(EL1,RemList),
-	RunList = [EL,OL1|RemList].
+%% paruns([],[]):-!.
+%% paruns([],_):-!.
+%% paruns(List, RunList):-
+%% 	even_list(List,EL,OL),
+%% 	odd_list(OL,OL1,EL1),
+%% 	paruns(EL1,RemList),
+%% 	RunList = [EL,OL1|RemList].
 
 
+%% paruns([H|T], RunList):-
+%% 	find_even()
 
-odd_list([],[],[]).
 
-odd_list([H|T],[],[H|T]) :-
-	even(H).
-
-odd_list([H|T],[H|R],Remaining) :-
-	odd(H),
-	odd_list(T,R,Remaining).
-
-even_list([],[],[]).
-
-even_list([H|T],[],[H|T]) :-
-	odd(H).
-
-even_list([H|T],[H|R],Remaining) :-
-	even(H),
-	even_list(T,R,Remaining).
 
 % Odd and Even Predicates
 odd(Num) :- 
@@ -149,7 +135,33 @@ odd(Num) :-
 even(Num) :- 
 	0 is Num mod 2.
 
+prefix(_,[],[],[]).
 
+prefix(0,[X|Xs],[],[X|Xs]). 
+
+prefix(N,[X|Xs],[X|P],S):- 
+  N > 0,                                     
+  N1 is N-1,                                 
+  prefix(N1,Xs,P,S). 
+
+find_even([H|T],[H|R],Suffix):-
+	even(H),
+	find_even(T,R,Suffix).
+
+find_even([H|T],[],[H|T]):-
+	odd(H).
+
+find_odd([H|T],[H|R],Suffix):-
+	odd(H),
+	find_odd(T,R,Suffix).
+
+find_odd([H|T],[],[H|T]):-
+	even(H).
+
+
+
+
+	
 
 
 
