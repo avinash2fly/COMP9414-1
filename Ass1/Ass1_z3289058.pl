@@ -115,19 +115,14 @@ log_table([H|T], LogPairs) :-
 
 
 % Question 4 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-%% paruns([],[]):-!.
-%% paruns([],_):-!.
-%% paruns(List, RunList):-
-%% 	even_list(List,EL,OL),
-%% 	odd_list(OL,OL1,EL1),
-%% 	paruns(EL1,RemList),
-%% 	RunList = [EL,OL1|RemList].
 
-
-%% paruns([H|T], RunList):-
-%% 	find_even()
-
-
+paruns([],[]).
+paruns(List, RunList):-
+ 	find_even(List,EL,OL),
+ 	find_odd(OL,OL1,EL1),
+ 	paruns(EL1,RList),
+ 	RunListTemp = [EL,OL1|RList],
+ 	delete(RunListTemp,[],RunList).
 
 % Odd and Even Predicates
 odd(Num) :- 
@@ -151,6 +146,9 @@ find_even([H|T],[H|R],Suffix):-
 find_even([H|T],[],[H|T]):-
 	odd(H).
 
+find_even([],[],[]).
+find_even([],_,'').
+
 find_odd([H|T],[H|R],Suffix):-
 	odd(H),
 	find_odd(T,R,Suffix).
@@ -158,7 +156,8 @@ find_odd([H|T],[H|R],Suffix):-
 find_odd([H|T],[],[H|T]):-
 	even(H).
 
-
+find_odd([],[],[]).
+find_odd([],_,_).
 
 
 	
