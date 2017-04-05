@@ -117,10 +117,6 @@ pair(L1,L2,[L1,L2]).
 
 % Question 4 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
-%
-
-
 % Find the even prefix and remaining suffix, followed by the odd prefix
 % of the suffix. Pass remaining suffix back to function and append
 % Even and Odd preffixes to list. Delete filters [] of edge cases i.e 
@@ -139,21 +135,10 @@ odd(Num) :-
 even(Num) :- 
 	0 is Num mod 2.
 
-% Chop prefix,
-prefix(_,[],[],[]).
-
-prefix(0,[X|Xs],[],[X|Xs]). 
-
-prefix(N,[X|Xs],[X|P],S):- 
-  N > 0,                                     
-  N1 is N-1,                                 
-  prefix(N1,Xs,P,S). 
-
-
 % Find the first even prefix of a list.
 find_even([],[],[]). % Base Cases
 find_even([],_,_).
-% Stop recursion if odd found, return nothing and suffix incl head.
+% Stop recursion if odd found, return empty accumulator and suffix incl head.
 find_even([H|T],[],[H|T]):-
 	odd(H).
 %  If head of list is even add to accumulator and recurse on tail
@@ -171,8 +156,15 @@ find_odd([H|T],[H|R],Suffix):-
 	find_odd(T,R,Suffix).
 
 % Question 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-	
 
+%% % Base Case
+%% %is_heap(tree(_,N,_),N).
+%% %i_sheap(tree(empty,LastNode,empty),LastNode).
+%% is_heap(tree(LL,N,RL),LastNode):-
+%%  	N >= LastNode,
+%%  	is_heap(LL, LastNode),
+%%  	is_heap(RL, LastNode).
+is_heap(empty).
 
 
 
