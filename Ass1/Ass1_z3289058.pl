@@ -157,14 +157,25 @@ find_odd([H|T],[H|R],Suffix):-
 
 % Question 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-%% % Base Case
-%% %is_heap(tree(_,N,_),N).
-%% %i_sheap(tree(empty,LastNode,empty),LastNode).
-%% is_heap(tree(LL,N,RL),LastNode):-
-%%  	N >= LastNode,
-%%  	is_heap(LL, LastNode),
-%%  	is_heap(RL, LastNode).
-is_heap(empty).
+% First predicate called to recurse into tree.
+is_hea(tree(LL,LastNode,RL)):-
+	is_hea(LL, LastNode),
+	is_hea(RL, LastNode).	
+% Base Case
+is_hea(empty).
+
+
+% Second recursive predicate, called by is_hea/1 with 
+% parent node of caller for equality check. 
+is_hea(tree(LL,N,RL),LastNode):-
+	N >= LastNode,
+	is_hea(LL, N),
+	is_hea(RL, N).
+% Base Case i.e bottom of right and left nodes
+is_hea(empty,_).
+%Case when single tree
+is_hea(t(_,X,_),X).
+
 
 
 
