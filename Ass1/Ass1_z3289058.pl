@@ -32,22 +32,6 @@ sqr(X,Y) :-
 
 % Question 2 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-parent(jim, brian).
-parent(brian, jenny).
-parent(john,jimmy).
-parent(jimmy,josh).
-parent(pat, brian).
-parent(jim,john).
-parent(john, jan).
-female(jan).
-female(pat).
-female(jenny).
-male(jim).
-male(brian).
-male(jimmy).
-male(josh).
-male(john).
-
 % Descendant : Person2 is descendant of Person1
 
 male_descendant(Person1,Person2) :-
@@ -107,6 +91,10 @@ same_name(Person1, Person2) :-
 
 % Question 3 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+% maplist transforms numbers list to Logs
+% pairs maps two atoms to list of pairs
+% User maplist in conjustion with pair to trasform
+
 
 log_table(NumberList, LogList) :-
 	maplist(log,NumberList,Logs),
@@ -157,24 +145,27 @@ find_odd([H|T],[H|R],Suffix):-
 
 % Question 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+% Strange error for is_heap. No permission to redefine imported_procedure `heaps:is_heap/1'
+% Changed to is_hea for testing and fine. is_heap for submission system
+
 % First predicate called to recurse into tree.
-is_hea(tree(LL,LastNode,RL)):-
-	is_hea(LL, LastNode),
-	is_hea(RL, LastNode).	
+is_heap(tree(LL,LastNode,RL)):-
+	is_heap(LL, LastNode),
+	is_heap(RL, LastNode).	
 % Base Case
-is_hea(empty).
+is_heap(empty).
 
 
 % Second recursive predicate, called by is_hea/1 with 
 % parent node of caller for equality check. 
-is_hea(tree(LL,N,RL),LastNode):-
+is_heap(tree(LL,N,RL),LastNode):-
 	N >= LastNode,
-	is_hea(LL, N),
-	is_hea(RL, N).
+	is_heap(LL, N),
+	is_heap(RL, N).
 % Base Case i.e bottom of right and left nodes
-is_hea(empty,_).
+is_heap(empty,_).
 %Case when single tree
-is_hea(t(_,X,_),X).
+is_heap(t(_,X,_),X).
 
 
 
