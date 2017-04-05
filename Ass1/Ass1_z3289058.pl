@@ -107,15 +107,24 @@ same_name(Person1, Person2) :-
 
 % Question 3 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-log_table([],[]).
-log_table([H|T], LogPairs) :-
-	LogH is log(H),
-	log_table(T,LogHList),
-	LogPairs = [[H, LogH]|LogHList].
 
+log_table(NumberList, LogList) :-
+	maplist(log,NumberList,Logs),
+	maplist(pair,NumberList,Logs,LogList).
+
+pair(L1,L2,[L1,L2]).
+	
 
 % Question 4 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+
+%
+
+
+% Find the even prefix and remaining suffix, followed by the odd prefix
+% of the suffix. Pass remaining suffix back to function and append
+% Even and Odd preffixes to list. Delete filters [] of edge cases i.e 
+% there is no even or odd prefix returned
 paruns([],[]).
 paruns(List, RunList):-
  	find_even(List,EL,OL),
@@ -130,6 +139,7 @@ odd(Num) :-
 even(Num) :- 
 	0 is Num mod 2.
 
+% Chop prefix,
 prefix(_,[],[],[]).
 
 prefix(0,[X|Xs],[],[X|Xs]). 
@@ -139,27 +149,28 @@ prefix(N,[X|Xs],[X|P],S):-
   N1 is N-1,                                 
   prefix(N1,Xs,P,S). 
 
+
+% Find the first even prefix of a list.
+find_even([],[],[]). % Base Cases
+find_even([],_,_).
+% Stop recursion if odd found, return nothing and suffix incl head.
+find_even([H|T],[],[H|T]):-
+	odd(H).
+%  If head of list is even add to accumulator and recurse on tail
 find_even([H|T],[H|R],Suffix):-
 	even(H),
 	find_even(T,R,Suffix).
 
-find_even([H|T],[],[H|T]):-
-	odd(H).
-
-find_even([],[],[]).
-find_even([],_,'').
-
+% Same but for odd
+find_odd([],[],[]).
+find_odd([],_,_).
+find_odd([H|T],[],[H|T]):-
+	even(H).
 find_odd([H|T],[H|R],Suffix):-
 	odd(H),
 	find_odd(T,R,Suffix).
 
-find_odd([H|T],[],[H|T]):-
-	even(H).
-
-find_odd([],[],[]).
-find_odd([],_,_).
-
-
+% Question 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 	
 
 
