@@ -157,6 +157,9 @@ find_odd([H|T],[H|R],Suffix):-
 
 % Question 5 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+% Strange error for is_heap. No permission to redefine imported_procedure `heaps:is_heap/1'
+% Changed to is_hea for testing and fine. is_heap for submission system
+
 % First predicate called to recurse into tree.
 is_hea(tree(LL,LastNode,RL)):-
 	is_hea(LL, LastNode),
