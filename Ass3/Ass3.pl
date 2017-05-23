@@ -57,6 +57,28 @@ get_action(Belief, [Goal,Plan|Intentions1], [[Goal,Remaining_Actions]|[Intention
 	can_sell(Belief,Goal),
 	get_first_action(Plan, Action, Remaining_Actions).
 
+% Possible to sell but no plan
+get_action(Belief, [Goal,[]|Intentions1], [[Goal,Remaining_Actions]|[Intentions1]], Action):-
+	can_sell(Belief,Goal),
+	get_plan(Belief,Goal,Plan),
+	get_first_action(Plan, Action, Remaining_Actions).
+
+% Get plan from belief to goal
+get_plan(belief(at(Xi,Yi),stock(T)),goal(Xf,Yf,S),Plan):-
+	get_plan(Xi,Yi,Xf,Yf,[]).
+
+get_plan(X,Y,Xf,Yf,(Xm,Ym)):-
+	possible_moves(X,Y,move(Xm,Ym)),
+	distance((Xm,Ym),(Xf,Yf), New_Dist),
+	distance((X,Y),(Xf,Yf), Old_Dist),
+	Old_Dist > New_Dist.
+
+
+possible_moves(X,Y, Move):-
+	XLeft is X - 1, Move 	= move(XLeft,Y);
+	XRight is X + 1, Move 	= move(XRight,Y);
+	YUp is Y + 1, Move 		= move(X,YUp);
+	YDown is Y - 1, Move 	= move(X,YDown).
 
 % Return first move from plan list
 get_first_action([Action|Remaining_Actions], Action, Remaining_Actions).
@@ -72,4 +94,4 @@ can_sell(belief(at(_,_),stock(T)),goal(_,_,S)):-
 
 
 
-get_action(belief(at(2,3),stock(5)), intents([[goal(2,4,3), [3,4]]],[]),Intentions1,Action).
+%get_action(belief(at(2,3),stock(5)), intents([[goal(2,4,3), [3,4]]],[]),Intentions1,Action).
