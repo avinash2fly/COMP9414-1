@@ -18,33 +18,58 @@ trigger([truffle(X,Y,S)|Tail1], goals(Restaurant, [goal(X,Y,S)|Tail2])):-
 
 
 % Base case there are no more goals to be incorperated.
-incorporate_goals(goals([],[]),_,Intentions,Intentions):- !.
+%incorporate_goals(goals([],[]),_,Intentions,Intentions):- !.
 
 % Case where restaurant goal is already in Restaurants list
-incorporate_goals(goals([goal(X,Y,S)|Goals_rest],Goals_truff), Beliefs, intents(Int_sell,Int_pick), Intentions1):-
-	member(goal(X,Y,S),Int_sell),
-	incorporate_goals(goals(Goals_rest,Goals_truff),Beliefs,[Int_sell|Int_pick],Intentions1).
+%incorporate_goals(goals([goal(X,Y,S)|Goals_rest],Goals_truff), Beliefs, intents(Int_sell,Int_pick), Intentions1):-
+%	member(goal(X,Y,S),Int_sell),
+%	incorporate_goals(goals(Goals_rest,Goals_truff),Beliefs,intents(Int_sell,Int_pick),Intentions1).
 
 % Case where restaurant goal is already in Restaurants list
-incorporate_goals(goals(Goals_rest,[goals(X,Y,S)|Goals_truff]), Beliefs, intents(Int_sell,Int_pick), Intentions1):-
-	member(goal(X,Y,S),Int_pick),
-	incorporate_goals(goals(Goals_rest,Goals_truff),Beliefs, intents(Int_sell,Int_pick),Intentions1).
+%incorporate_goals(goals(Goals_rest,[goals(X,Y,S)|Goals_truff]), Beliefs, intents(Int_sell,Int_pick), Intentions1):-
+	%member(goal(X,Y,S),Int_pick),
+	%incorporate_goals(goals(Goals_rest,Goals_truff),Beliefs, intents(Int_sell,Int_pick),Intentions1).
 
 % Case where restaurant goal is not in int_sell
-incorporate_goals(goals([goal(X,Y,S)|Goals_rest],Goals_truff), Beliefs, Intentions, Intentions1):-
-	insert_goal(goal(X,Y,S),Beliefs,Intentions,AccumIntents),
-	incorporate_goals(goals(Goals_rest,Goals_truff), Beliefs, AccumIntents, Intentions).
+%incorporate_goals(goals([goal(X,Y,S)|Goals_rest],Goals_truff), Beliefs, [Int_sell,Int_pick] Intentions1):-
+	%insert_goal(goal(X,Y,S),Beliefs,Int_sell,AccumIntents),
+	%incorporate_goals(goals(Goals_rest,Goals_truff), Beliefs, AccumIntents, Intentions).
 
 % Base case where there are no goals in the intentions list
-insert_goal(goal(X,Y,S),_,[],[[goal(X,Y,S)],[]]):- !.	
-
+%insert_goal(goal(X,Y,S),_,[],[[goal(X,Y,S)],[]]):- !.
+%
 % Case where truffle goal is not in int_sell.
 %incorporate_goals(goals(Goals_rest,[goals(X,Y,S)|Goals_truff]), Beliefs, [Int_sell|Int_pick], Intentions1):-
 
-insert_goal(goal(X,Y,S),Beliefs,[goal(X1,Y1,S1),Plan],New_Int_Sell):-
+%insert_goal(goal(X,Y,S),Beliefs,[[goal(X1,Y1,S1),_],Intentions],New_Intentions):-
+
+
 
 
 
 % Question 3
 
-%get_action(Beliefs, Intentions, Intentions1, Action)
+get_action(belief(at(X,Y),_),intents([],[]),intents([],[]),move(X,Y)):- !.
+
+
+% Possible to sell to restaurant, plan already set
+get_action(Belief, [Goal,Plan|Intentions1], [[Goal,Remaining_Actions]|[Intentions1]], Action):-
+	can_sell(Belief,Goal),
+	get_first_action(Plan, Action, Remaining_Actions).
+
+
+% Return first move from plan list
+get_first_action([Action|Remaining_Actions], Action, Remaining_Actions).
+
+can_sell(belief(at(_,_),stock(T)),goal(_,_,S)):-
+	S =< T.
+
+
+% Possible to sell to restaurant, need to set plan
+%get_action(belief(at(X,Y),stock(T)), intents([[goal(X1,Y1,S), [First_Action|Remaining_Actions]]|Remaining_Int_sell],Int_pick), Intentions1, Action):-
+%	S =< T.
+
+
+
+
+get_action(belief(at(2,3),stock(5)), intents([[goal(2,4,3), [3,4]]],[]),Intentions1,Action).
